@@ -102,7 +102,11 @@ def set_decoder_params(model, p, dims):
 
 
 class WhisperModel(object):
-    def __init__(self, model='tiny.en'):
+    def __init__(
+        self,
+        model='tiny.en', 
+        language=None
+    ):
         params_file = os.path.join(os.path.dirname(__file__), "weights", f"{model}.npz")
         params_file = np.load(params_file)
         dims = {k.split('/')[-1]:v for k, v in params_file.items() if k.startswith('dims/')}
@@ -123,7 +127,7 @@ class WhisperModel(object):
 
         set_encoder_params(self.model, params, dims)
         set_decoder_params(self.model, params, dims)
-        self.tokenizer = get_tokenizer(multilingual=False)
+        self.tokenizer = get_tokenizer(multilingual=(language not is None), language=language)
         assert os.sched_getaffinity(os.getpid()) == set([4, 5, 6, 7]), (
             f'Should be run with taskset -c4-7')
 
