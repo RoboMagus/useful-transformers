@@ -13,6 +13,8 @@ setup(
     cmake_install_dir='examples/whisper',
     python_requires=">=3.7",
     install_requires=[
+        "pybind11",
+        "pybind11-global",
         "numpy",
         "tiktoken",
         "tqdm",
